@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
-import { useContext } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import * as z from 'zod'
+import { useContextSelector } from 'use-context-selector'
 
 import {
   CloseButton,
@@ -24,7 +24,15 @@ const newTransactionFormSchema = z.object({
 type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
 
 export function NewTransactionModal() {
-  const { createTransaction } = useContext(TransactionsContext)
+  /* useContextSelector é uma alternativa para selecionar o que queremos OBSERVAR dentro do contexto, evitando
+    renderizar certos conteudos desnecessariamente, ja que dependiamos do contexto todo
+  */
+  const createTransaction = useContextSelector(
+    TransactionsContext,
+    (context) => {
+      return context.createTransaction
+    },
+  )
 
   const {
     control,

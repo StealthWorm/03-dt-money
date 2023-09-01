@@ -20,7 +20,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.4",
+    "scheduler": "^0.23.0",
     "styled-components": "^6.0.7",
+    "use-context-selector": "^1.4.1",
     "zod": "^3.22.2"
   },
   "devDependencies": {
