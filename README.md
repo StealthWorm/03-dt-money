@@ -27,3 +27,4 @@ If you are developing a production application, we recommend updating the config
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
 ***npx json-server server.json -p 3333 (define port) -w (watch modifications) -d 500 (set delay to transactions)***
+***npx eslint src --ext .tsx,.ts (para rodar o lint em arquivos com extensão especifica)***

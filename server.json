@@ -23,6 +23,22 @@
       "category": "Educação",
       "price": 1980,
       "createdAt": "2022-07-29T19:24:44.505Z"
+    },
+    {
+      "description": "dev de app",
+      "price": 10000,
+      "category": "venda",
+      "type": "income",
+      "createdAt": "2023-09-01T00:46:43.022Z",
+      "id": 4
+    },
+    {
+      "description": "yogurt",
+      "price": 4,
+      "category": "alimentação",
+      "type": "outcome",
+      "createdAt": "2023-09-01T00:54:24.821Z",
+      "id": 5
     }
   ]
 }
