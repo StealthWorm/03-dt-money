@@ -5,7 +5,7 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContextSelector } from 'use-context-selector'
 import { TransactionsContext } from '../../../../contexts/TransactionsContext'
-// import { memo } from 'react'
+import { memo, useCallback, useState } from 'react'
 
 const searchFormSchema = z.object({
   query: z.string(),
@@ -13,27 +13,41 @@ const searchFormSchema = z.object({
 
 type SearchFormInputs = z.infer<typeof searchFormSchema>
 
-// function SearchFormComponent() {
-export function SearchForm() {
+function SearchFormComponent() {
   const fetchTransactions = useContextSelector(
     TransactionsContext,
-    (context) => {
-      return context.fetchTransactions
-    },
+    (context) => context.fetchTransactions,
   )
+
+  const [error, setError] = useState<string | null>(null)
 
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
+    reset,
   } = useForm<SearchFormInputs>({
     resolver: zodResolver(searchFormSchema),
-    // defaultValues: {}
+    defaultValues: {
+      query: '',
+    },
   })
 
-  async function handleSearchTransactions(data: SearchFormInputs) {
-    await fetchTransactions(data.query)
-  }
+  const handleSearchTransactions = useCallback(
+    async (data: SearchFormInputs) => {
+      try {
+        setError(null)
+        await fetchTransactions(data.query)
+        reset()
+      } catch (error) {
+        setError('Error searching transactions')
+        console.error('Error searching transactions:', error)
+      }
+    },
+    [fetchTransactions, reset],
+  )
+
+  // console.log('renderizou')
 
   return (
     <SearchFormContainer onSubmit={handleSubmit(handleSearchTransactions)}>
@@ -41,14 +55,15 @@ export function SearchForm() {
         type="text"
         placeholder="Busque por transações"
         {...register('query')}
+        aria-label="Search transactions"
       />
 
-      <button type="submit" disabled={isSubmitting}>
+      <button type="submit" disabled={isSubmitting} aria-label="Search">
         <MagnifyingGlass size={20} />
-        Buscar
+        {isSubmitting ? 'Buscando...' : 'Buscar'}
       </button>
     </SearchFormContainer>
   )
 }
 
-// export const SearchForm = memo(SearchFormComponent)
+export const SearchForm = memo(SearchFormComponent)

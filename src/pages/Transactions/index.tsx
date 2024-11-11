@@ -9,11 +9,13 @@ import {
 } from './styles'
 import { TransactionsContext } from '../../contexts/TransactionsContext'
 import { dateFormatter, priceFormatter } from '../../utils/formatter'
+import { useCallback } from 'react'
 
 export function Transactions() {
-  const transactions = useContextSelector(TransactionsContext, (context) => {
-    return context.transactions
-  })
+  const transactions = useContextSelector(
+    TransactionsContext,
+    useCallback((context) => context.transactions, []),
+  )
 
   return (
     <div>
